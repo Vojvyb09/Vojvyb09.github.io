@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEBLAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Hlavní navigační lišta -->
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="logo.png" alt="WEBLAB Logo" id="logo">
+            <span class="site-title"><a href="#">WEBLAB</a></span>
+            <span class="hover-text">Projekt mladého studenta</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Domovská stránka</a></li>
+            <li><a href="#">Projekty</a></li>
+            <li><a href="#" id="loginBtn">Přihlásit</a></li>
+            <!-- Avatar - po přihlášení -->
+            <li id="avatar-container" style="display:none;">
+                <img src="avatar.png" alt="Avatar" id="avatar" class="avatar">
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hlavní obsah stránky -->
+<main>
+    <div class="main">
+        <div class="welcome-text">Vítejte na stránce WEBLAB</div>
+    </div>
+</main>
+
+<!-- Modální okno pro přihlášení a registraci -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modalTitle">Přihlášení</h2>
+
+        <!-- Formulář pro přihlášení -->
+        <div id="loginForm">
+            <label for="username">Uživatelské jméno</label>
+            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno">
+            <label for="password">Heslo</label>
+            <input type="password" id="password" name="password" placeholder="Zadejte heslo">
+            <button type="submit">Přihlásit</button>
+            <p id="showRegister">Nemáš účet? <a href="#" id="showRegisterLink">Registruj se</a></p>
+        </div>
+
+        <!-- Formulář pro registraci -->
+        <div id="registerForm" style="display:none;">
+            <label for="regUsername">Uživatelské jméno</label>
+            <input type="text" id="regUsername" name="regUsername" placeholder="Zadejte uživatelské jméno">
+            <label for="regPassword">Heslo</label>
+            <input type="password" id="regPassword" name="regPassword" placeholder="Zadejte heslo">
+            <button type="submit">Registrovat</button>
+            <p id="showLogin">Máš už účet? <a href="#" id="showLoginLink">Přihlas se</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// JavaScript pro modální okno
+document.getElementById('loginBtn').addEventListener('click', function() {
+    document.getElementById('myModal').style.display = 'flex';
+});
+
+// Zavření modálního okna
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('myModal').style.display = 'none';
+});
+
+// Přepínání mezi přihlášením a registrací
+document.getElementById('showRegisterLink').addEventListener('click', function() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+    document.getElementById('modalTitle').textContent = 'Registrace';
+});
+
+document.getElementById('showLoginLink').addEventListener('click', function() {
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('modalTitle').textContent = 'Přihlášení';
+});
+
+// Simulace přihlášení pro testování (toto by mělo být spojeno s backendem pro skutečné přihlášení)
+document.querySelector('#loginForm button').addEventListener('click', function() {
+    // Po přihlášení, avatar se objeví a přihlášení tlačítko zmizí
+    document.getElementById('avatar-container').style.display = 'inline-block';
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('myModal').style.display = 'none';
+});
+
+document.querySelector('#registerForm button').addEventListener('click', function() {
+    // Po registraci, avatar se objeví a registrace tlačítko zmizí
+    document.getElementById('avatar-container').style.display = 'inline-block';
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('myModal').style.display = 'none';
+});
+</script>
+
+</body>
+</html>
