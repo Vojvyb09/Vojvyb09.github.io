@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekty - WEBLAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .project {
+            position: relative;
+            margin-bottom: 20px;
+            border: 1px solid #000; /* Černý rámeček */
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #222; /* Temné pozadí pro lepší kontrast */
+            color: white; /* Bílý text pro lepší čitelnost */
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: scale(1.05);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            color: #fff; /* Bílá barva pro tužku */
+            cursor: pointer;
+            display: none; /* Skrytý, dokud není najezd na projekt */
+        }
+
+        .project:hover .delete-btn {
+            display: block; /* Zobrazí se při najetí na projekt */
+        }
+
+        .project img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .project .project-info {
+            margin-top: 10px;
+        }
+
+        .project .project-info p {
+            margin: 5px 0;
+        }
+
+        .project .project-info span {
+            color: #bbb; /* Světlejší barva pro datum */
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hlavní navigační lišta -->
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="logo.png" alt="WEBLAB Logo" id="logo">
+            <span class="site-title"><a href="index.html">WEBLAB</a></span>
+            <span class="hover-text">Projekt mladého studenta</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Domovská stránka</a></li>
+            <li><a href="projekt.html" class="active">Projekty</a></li>
+            <li><a href="#" id="loginBtn">Přihlásit</a></li>
+            <li id="avatar-container" style="display:none;">
+                <img src="avatar.png" alt="Avatar" id="avatar" class="avatar">
+            </li>
+            <li><a href="#" id="addProjectBtn" style="display:none;">+</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hlavní obsah stránky -->
+<main>
+    <div class="projects-container" id="projectsContainer">
+        <!-- Zde budou zobrazeny projekty -->
+    </div>
+</main>
+
+<!-- Modální okno pro přihlášení -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Přihlášení</h2>
+        <form id="loginForm">
+            <label for="username">Uživatelské jméno</label>
+            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+            <label for="password">Heslo</label>
+            <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+            <button type="submit">Přihlásit</button>
+        </form>
+        <p id="showRegister">Nemáš účet? <a href="#" id="showRegisterLink">Registruj se</a></p>
+    </div>
+</div>
+
+<!-- Modální okno pro přidání projektu -->
+<div id="addProjectModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeAddProjectModal">&times;</span>
+        <h2>Přidat nový projekt</h2>
+        <form id="addProjectForm" enctype="multipart/form-data">
+            <label for="projectImage">Nahrát obrázek (JPG/PNG)</label>
+            <input type="file" id="projectImage" name="projectImage" accept=".jpg, .png" required>
+            <label for="projectVersion">Verze</label>
+            <input type="text" id="projectVersion" name="projectVersion" placeholder="Např. 1.0" required>
+            <label for="projectDescription">Popis projektu</label>
+            <textarea id="projectDescription" name="projectDescription" rows="5" placeholder="Napiš o projektu..." required></textarea>
+            <button type="submit">Přidat projekt</button>
+        </form>
+    </div>
+</div>
+
+<script>
+// JavaScript pro přidání a řazení projektů
+let isLoggedIn = false;  // Pro testování (ve skutečné aplikaci by to bylo určeno backendem)
+
+// Funkce pro formátování data na lokalizovaný formát
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    return new Date(date).toLocaleDateString('cs-CZ', options);
+}
+
+// Načíst projekty z localStorage při načtení stránky
+document.addEventListener('DOMContentLoaded', function() {
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    projects.forEach(project => {
+        addProjectToPage(project.image, project.version, project.description, project.date);
+    });
+});
+
+// Uložit projekty do localStorage
+function saveProjectsToLocalStorage(projects) {
+    localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+// Otevření modálního okna pro přihlášení
+document.getElementById('loginBtn').addEventListener('click', function() {
+    document.getElementById('loginModal').style.display = 'flex';
+});
+
+// Zavření modálních oken
+const closeBtns = document.querySelectorAll('.close-btn');
+closeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.closest('.modal').style.display = 'none';
+    });
+});
+
+// Odeslání formuláře pro přihlášení
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Simulace úspěšného přihlášení
+    isLoggedIn = true;
+    document.getElementById('avatar-container').style.display = 'inline-block';
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('addProjectBtn').style.display = 'block';  // Zobrazí tlačítko pro přidání projektu
+    document.getElementById('loginModal').style.display = 'none';
+});
+
+// Otevření modálního okna pro přidání projektu, pokud je uživatel přihlášen
+document.getElementById('addProjectBtn').addEventListener('click', function() {
+    if (isLoggedIn) {
+        document.getElementById('addProjectModal').style.display = 'flex';
+    } else {
+        document.getElementById('loginModal').style.display = 'flex';
+    }
+});
+
+// Odeslání formuláře pro přidání projektu
+document.getElementById('addProjectForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Získání dat z formuláře
+    const image = document.getElementById('projectImage').files[0];
+    const version = document.getElementById('projectVersion').value;
+    const description = document.getElementById('projectDescription').value;
+    const date = new Date();
+
+    // Vytvoření objektu pro projekt
+    const project = {
+        image: URL.createObjectURL(image),
+        version: version,
+        description: description,
+        date: date
+    };
+
+    // Vytvoříme pole projektů, pokud je ještě neexistuje
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+    // Přidáme nový projekt
+    projects.push(project);
+
+    // Uložíme projekty zpět do localStorage
+    saveProjectsToLocalStorage(projects);
+
+    // Přidáme projekt na stránku
+    addProjectToPage(project.image, version, description, date);
+
+    // Zavření modálního okna
+    document.getElementById('addProjectModal').style.display = 'none';
+
+    // Vyprázdnění formuláře
+    document.getElementById('addProjectForm').reset();
+});
+
+// Funkce pro přidání projektu na stránku
+function addProjectToPage(image, version, description, date) {
+    const projectContainer = document.createElement('div');
+    projectContainer.classList.add('project');
+
+    const img = document.createElement('img');
+    img.src = image;
+    img.alt = 'Projektový obrázek';
+    img.classList.add('project-image');
+
+    const projectInfo = document.createElement('div');
+    projectInfo.classList.add('project-info');
+
+    const dateElement = document.createElement('p');
+    dateElement.textContent = 'Datum: ' + formatDate(date);
+    const versionElement = document.createElement('p');
+    versionElement.textContent = 'Verze: ' + version;
+    const descriptionElement = document.createElement('p');
+    descriptionElement.textContent = description;
+
+    projectInfo.appendChild(dateElement);
+    projectInfo.appendChild(versionElement);
+    projectInfo.appendChild(descriptionElement);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.textContent = '✏️';  // Tužka emoji pro mazání
+    deleteBtn.addEventListener('click', function() {
+        if (confirm('Jste si jistý, že chcete tento projekt smazat?')) {
+            projectContainer.remove();
+            removeProjectFromLocalStorage(image);  // Mazání z localStorage
+        }
+    });
+
+    projectContainer.appendChild(img);
+    projectContainer.appendChild(projectInfo);
+    projectContainer.appendChild(deleteBtn);
+
+    document.getElementById('projectsContainer').appendChild(projectContainer);
+}
+
+// Funkce pro odstranění projektu z localStorage
+function removeProjectFromLocalStorage(imageUrl) {
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    const filteredProjects = projects.filter(project => project.image !== imageUrl);
+    saveProjectsToLocalStorage(filteredProjects);
+}
+
+</script>
+
+</body>
+</html>

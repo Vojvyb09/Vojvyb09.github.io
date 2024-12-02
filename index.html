@@ -18,8 +18,8 @@
             <span class="hover-text">Projekt mladého studenta</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#">Domovská stránka</a></li>
-            <li><a href="#">Projekty</a></li>
+            <li><a href="index.html">Domovská stránka</a></li>
+            <li><a href="projekt.html">Projekty</a></li>
             <li><a href="#" id="loginBtn">Přihlásit</a></li>
             <!-- Avatar - po přihlášení -->
             <li id="avatar-container" style="display:none;">
@@ -32,7 +32,22 @@
 <!-- Hlavní obsah stránky -->
 <main>
     <div class="main">
+        <!-- Text "Vítejte na stránce WEBLAB" nahoře -->
         <div class="welcome-text">Vítejte na stránce WEBLAB</div>
+
+        <!-- Nový text pod uvítáním -->
+        <div class="intro-text">
+            <p>Tento web byl vytvořen studentem jako osobní projekt, jehož cílem je prezentovat různé technické projekty a umožnit ostatním uživatelům je prozkoumat. Na stránkách naleznete přehled mých projektů, na kterých právě pracuji, včetně detailů, popisů a materiálů.</p>
+
+            <h3>Co zde najdete?</h3>
+            <ul>
+                <li><strong>Projekty:</strong> Podívejte se na různé projekty, které momentálně realizuji, a zjistěte, jaké technologie používám.</li>
+                <li><strong>Stahování souborů:</strong> Některé projekty obsahují soubory, které si můžete stáhnout a prozkoumat.</li>
+                <li><strong>Přidávání a úpravy projektů:</strong> Jako přihlášení uživatelé máte možnost přidávat a upravovat vlastní projekty.</li>
+            </ul>
+
+            <p>Tento web je pro všechny, kteří mají zájem o technologie, inovace a sdílení nápadů. Děkuji, že jste přišli a těším se na vaši zpětnou vazbu!</p>
+        </div>
     </div>
 </main>
 
@@ -48,7 +63,7 @@
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno">
             <label for="password">Heslo</label>
             <input type="password" id="password" name="password" placeholder="Zadejte heslo">
-            <button type="submit">Přihlásit</button>
+            <button type="submit" id="loginSubmit">Přihlásit</button>
             <p id="showRegister">Nemáš účet? <a href="#" id="showRegisterLink">Registruj se</a></p>
         </div>
 
@@ -58,7 +73,7 @@
             <input type="text" id="regUsername" name="regUsername" placeholder="Zadejte uživatelské jméno">
             <label for="regPassword">Heslo</label>
             <input type="password" id="regPassword" name="regPassword" placeholder="Zadejte heslo">
-            <button type="submit">Registrovat</button>
+            <button type="submit" id="registerSubmit">Registrovat</button>
             <p id="showLogin">Máš už účet? <a href="#" id="showLoginLink">Přihlas se</a></p>
         </div>
     </div>
@@ -88,19 +103,18 @@ document.getElementById('showLoginLink').addEventListener('click', function() {
     document.getElementById('modalTitle').textContent = 'Přihlášení';
 });
 
-// Simulace přihlášení pro testování (toto by mělo být spojeno s backendem pro skutečné přihlášení)
-document.querySelector('#loginForm button').addEventListener('click', function() {
-    // Po přihlášení, avatar se objeví a přihlášení tlačítko zmizí
-    document.getElementById('avatar-container').style.display = 'inline-block';
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('myModal').style.display = 'none';
-});
+// Simulace přihlášení pro testování
+document.querySelector('#loginSubmit').addEventListener('click', function() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-document.querySelector('#registerForm button').addEventListener('click', function() {
-    // Po registraci, avatar se objeví a registrace tlačítko zmizí
-    document.getElementById('avatar-container').style.display = 'inline-block';
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('myModal').style.display = 'none';
+    if (username === "Vojvyb" && password === "Admin") {
+        document.getElementById('avatar-container').style.display = 'inline-block';
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('myModal').style.display = 'none';
+    } else {
+        alert('Nesprávné uživatelské jméno nebo heslo.');
+    }
 });
 </script>
 

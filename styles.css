@@ -98,10 +98,10 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 150px); /* Zajišťuje, že text je uprostřed i s horní a dolní lištou */
+    position: absolute;
+    height: 100vh; /* Vycentruje obsah vertikálně i horizontálně */
     text-align: center;
 }
-
 .welcome-text {
     font-size: 2.5em;
     color: white;
@@ -133,18 +133,22 @@ nav {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7); /* Ztmavení pozadí */
     justify-content: center;
     align-items: center;
 }
 
+/* Obsah modálního okna */
 .modal-content {
-    background-color: #333;
+    background-color: #333; /* Tmavé pozadí */
     padding: 20px;
     width: 300px;
     border-radius: 8px;
+    color: white; /* Text bude bílý pro lepší kontrast */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Přidání jemného stínu pro lepší viditelnost */
 }
 
+/* Zavírací tlačítko */
 .close-btn {
     color: #aaa;
     font-size: 28px;
@@ -160,27 +164,36 @@ nav {
     color: white;
 }
 
+/* Label pro inputy */
 label {
     font-size: 1.2em;
     margin: 10px 0 5px;
     display: block;
+    color: #fff; /* Label text will be white */
 }
 
+/* Inputy */
 input {
     width: 100%;
     padding: 8px;
     margin: 10px 0 20px;
     font-size: 1em;
-    background-color: #555;
-    color: white;
+    background-color: #555; /* Tmavý pozadí pro inputy */
+    color: white; /* Text v inputech bude bílý */
     border: none;
     border-radius: 5px;
 }
 
+input:focus {
+    border-color: #f5a623; /* Oranžová barva při focusu */
+    outline: none;
+}
+
+/* Tlačítko pro přihlášení */
 button {
     width: 100%;
     padding: 10px;
-    background-color: #f5a623;
+    background-color: #f5a623; /* Oranžová barva */
     color: white;
     border: none;
     border-radius: 5px;
@@ -189,9 +202,10 @@ button {
 }
 
 button:hover {
-    background-color: #f59429;
+    background-color: #f59429; /* Tmavší oranžová při hoveru */
 }
 
+/* Footer styl */
 footer {
     background: linear-gradient(135deg, #4c2f91, #000);
     color: white;
@@ -202,4 +216,244 @@ footer {
 footer p {
     font-size: 1.2em;
     color: #f5a623;
+
 }
+/* Kontejner pro projekty */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Styl projektu */
+.project {
+    background: #000;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.project-image {
+    max-width: 90%;
+    border-radius: 5px;
+    margin: 10px auto;
+    display: block;
+}
+
+.project-version {
+    background-color: #f5a623;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 5px;
+    margin: 10px auto;
+    display: inline-block;
+}
+
+.project-description {
+    font-size: 0.9em;
+    margin-top: 10px;
+    color: #ddd;
+}
+
+/* Přidání mezer mezi bloky */
+.project + .project {
+    margin-top: 20px;
+}
+/* Tlačítko pro přidání projektu */
+#addProjectBtn {
+    background-color: #f5a623;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#addProjectBtn:hover {
+    background-color: #d48c18;
+}
+
+/* Modální okno pro přidání projektu */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Formulář pro přidání projektu */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="file"], textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Vzhled pro rozbalení textu popisu */
+textarea {
+    transition: height 0.3s ease;
+}
+
+textarea:focus {
+    height: 150px;
+}
+
+/* Projekt */
+.project {
+    background: #000;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.project-image {
+    max-width: 90%;
+    border-radius: 5px;
+    margin: 10px auto;
+    display: block;
+}
+
+.project-version {
+    background-color: #f5a623;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 5px;
+    margin: 10px auto;
+    display: inline-block;
+}
+
+.project-description {
+    font-size: 0.9em;
+    margin-top: 10px;
+    color: #ddd;
+}
+.project-date {
+    font-size: 0.8em;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+#addProjectBtn {
+    background-color: #f5a623;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#addProjectBtn:hover {
+    background-color: #d48c18;
+}
+
+.project {
+    border: 1px solid #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Stín pro lepší vzhled */
+    padding: 20px;
+}
+
+.delete-btn {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.delete-btn:hover {
+    background-color: #ff4d4d; /* Červený efekt při najetí myší */
+}
+/* Vzhled pro hlavní text na stránce */
+.welcome-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 100px;
+    padding-bottom: 20px;
+}
+
+/* Styl pro text, který následuje po "Vítejte na stránce WEBLAB" */
+.intro-text {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.1em;
+    color: #f0f0f0;
+    line-height: 1.6;
+    text-align: center;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.6);
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Styl pro nadpis "Co zde najdete?" */
+.intro-text h3 {
+    font-size: 1.4em;
+    color: #d4a5ff;
+    margin-top: 20px;
+}
+
+/* Styl pro seznamy */
+.intro-text ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.intro-text li {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #e0e0e0;
+}
+
+.intro-text li strong {
+    color: #f0f0f0;
+}
+
